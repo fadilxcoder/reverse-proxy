@@ -1,8 +1,8 @@
 <?php
 
 # CONFIGS
-const APP_URL = 'http://dev.api.hfx.local/v1/users';
-const AUTH_BEARER = 'Bearer icAESDk4FQYhhubVwCPExcnax7VMUxfHJlbrbGKg3cXBRg2ZqHRf8uXk9hOnSFVlcsuerf1+62RxmZVrXS4n1UqBiv8ruZnj00BMWnOa5u0=';
+const APP_URL = 'http://dev.api.hfx.local/';
+// const AUTH_BEARER = 'Bearer icAESDk4FQYhhubVwCPExcnax7VMUxfHJlbrbGKg3cXBRg2ZqHRf8uXk9hOnSFVlcsuerf1+62RxmZVrXS4n1UqBiv8ruZnj00BMWnOa5u0=';
 
 
 # Loading vendor
@@ -16,11 +16,11 @@ endif;
 
 # Namespaces
 use Proxy\Proxy;
-use Proxy\Adapter\Guzzle\GuzzleAdapter;
 use Proxy\Filter\RemoveEncodingFilter;
+use Proxy\Adapter\Guzzle\GuzzleAdapter;
 use Laminas\Diactoros\ServerRequestFactory;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use \GuzzleHttp\Exception\BadResponseException;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
 # Create a PSR7 request based on the current browser request.
 $request = ServerRequestFactory::fromGlobals();
@@ -41,8 +41,13 @@ try
 				->forward($request)
 				->filter(function ($request, $response, $next) {
 
+					if (!isset($request->getServerParams()['HTTP_AUTHORIZATION'])) {
+						throw new Exception('Authorization bearer is missing', 502);
+					}
+
 					# Manipulate the request object.
-					$request = $request->withHeader('Authorization', AUTH_BEARER);
+					// $request = $request->withHeader('Authorization', AUTH_BEARER);
+					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
 
 					# Call the next item in the middleware.
 					$response = $next($request, $response);
@@ -61,4 +66,9 @@ catch(BadResponseException $e)
 {
     # Correct way to handle bad responses
     (new SapiEmitter)->emit($e->getResponse());
+}
+catch(Exception $e) 
+{
+    # Correct way to handle bad responses
+    echo $e->getMessage();
 }
