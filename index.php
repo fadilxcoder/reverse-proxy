@@ -63,10 +63,10 @@ try
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
 					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
-					// $request = $request->withHeader('Access-Control-Allow-Origin', '*');
-					// $request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					// $request = $request->withHeader('Access-Control-Max-Age', '3600');
-					// $request = $request->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+					$request = $request->withHeader('Access-Control-Allow-Origin', '*');
+					$request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+					$request = $request->withHeader('Access-Control-Max-Age', '3600');
+					$request = $request->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 					
 
 					# Call the next item in the middleware.
@@ -74,10 +74,10 @@ try
 
 					# Manipulate the response object.
 					$response = $response->withHeader('X-Author', 'fadilxcoder');
-					// $response = $response->withHeader('Access-Control-Allow-Origin', '*');
-					// $response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					// $response = $response->withHeader('Access-Control-Max-Age', '3600');
-					// $response = $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+					$response = $response->withHeader('Access-Control-Allow-Origin', '*');
+					$response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+					$response = $response->withHeader('Access-Control-Max-Age', '3600');
+					$response = $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 
 					return $response;
