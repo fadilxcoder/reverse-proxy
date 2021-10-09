@@ -39,23 +39,30 @@ $proxy->filter(new RemoveEncodingFilter());
 
 try 
 {
+	# Authorization bearer check
+	if (!isset($request->getServerParams()['HTTP_AUTHORIZATION'])) {
+		throw new Exception('Authorization bearer is missing', 502);
+	}
+
+	# Endpoint check
+	if (!isset($request->getServerParams()['HTTP_ENDPOINT'])) {
+		throw new Exception('Endpoint is missing', 502);
+	}
+
     # Forward the request and get the response.
     $response = $proxy
 				->forward($request)
 				->filter(function ($request, $response, $next) {
 
-					if (!isset($request->getServerParams()['HTTP_AUTHORIZATION'])) {
-						throw new Exception('Authorization bearer is missing', 502);
-					}
-
 					# Manipulate the request object.
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
 					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
-					$request = $request->withHeader('Access-Control-Allow-Origin', '*');
-					$request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					$request = $request->withHeader('Access-Control-Max-Age', '3600');
-					$request = $request->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+					$request = $request->withHeader('X-Original-Client', $_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
+					// $request = $request->withHeader('Access-Control-Allow-Origin', '*');
+					// $request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+					// $request = $request->withHeader('Access-Control-Max-Age', '3600');
+					// $request = $request->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 					
 
 					# Call the next item in the middleware.
@@ -63,16 +70,16 @@ try
 
 					# Manipulate the response object.
 					$response = $response->withHeader('X-Author', 'fadilxcoder');
-					$response = $response->withHeader('X-Original-Client', $_ENV['API_SERVER']);
-					$response = $response->withHeader('Access-Control-Allow-Origin', '*');
-					$response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					$response = $response->withHeader('Access-Control-Max-Age', '3600');
-					$response = $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+					$response = $response->withHeader('X-Original-Client', $_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
+					// $response = $response->withHeader('Access-Control-Allow-Origin', '*');
+					// $response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
+					// $response = $response->withHeader('Access-Control-Max-Age', '3600');
+					// $response = $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 
 					return $response;
 				})
-				->to($_ENV['API_SERVER']);
+				->to($_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
 				// ->to(APP_URL);
 
     # Output response to the browser.
