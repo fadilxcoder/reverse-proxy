@@ -44,6 +44,11 @@ try
 		throw new Exception('Authorization bearer is missing', 502);
 	}
 
+	# Version check
+	if (!isset($request->getServerParams()['HTTP_VERSION'])) {
+		throw new Exception('Version is missing', 502);
+	}
+
 	# Endpoint check
 	if (!isset($request->getServerParams()['HTTP_ENDPOINT'])) {
 		throw new Exception('Endpoint is missing', 502);
@@ -58,7 +63,6 @@ try
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
 					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
-					$request = $request->withHeader('X-Original-Client', $_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
 					// $request = $request->withHeader('Access-Control-Allow-Origin', '*');
 					// $request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
 					// $request = $request->withHeader('Access-Control-Max-Age', '3600');
@@ -70,7 +74,6 @@ try
 
 					# Manipulate the response object.
 					$response = $response->withHeader('X-Author', 'fadilxcoder');
-					$response = $response->withHeader('X-Original-Client', $_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
 					// $response = $response->withHeader('Access-Control-Allow-Origin', '*');
 					// $response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
 					// $response = $response->withHeader('Access-Control-Max-Age', '3600');
@@ -79,7 +82,7 @@ try
 
 					return $response;
 				})
-				->to($_ENV['API_SERVER'] . $request->getServerParams()['HTTP_ENDPOINT']);
+				->to($_ENV['API_SERVER'] . $request->getServerParams()['HTTP_VERSION'] . $request->getServerParams()['HTTP_ENDPOINT']);
 				// ->to(APP_URL);
 
     # Output response to the browser.
