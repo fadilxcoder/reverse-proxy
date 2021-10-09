@@ -37,11 +37,6 @@ $proxy = new Proxy(new GuzzleAdapter($guzzle));
 # Add a response filter that removes the encoding headers.
 $proxy->filter(new RemoveEncodingFilter());
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
 try 
 {
 	# Authorization bearer check
@@ -68,22 +63,12 @@ try
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
 					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
-					$request = $request->withHeader('Access-Control-Allow-Origin', '*');
-					$request = $request->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					$request = $request->withHeader('Access-Control-Max-Age', '3600');
-					$request = $request->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-					
 
 					# Call the next item in the middleware.
 					$response = $next($request, $response);
 
 					# Manipulate the response object.
 					$response = $response->withHeader('X-Author', 'fadilxcoder');
-					$response = $response->withHeader('Access-Control-Allow-Origin', '*');
-					$response = $response->withHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
-					$response = $response->withHeader('Access-Control-Max-Age', '3600');
-					$response = $response->withHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
 
 					return $response;
 				})
