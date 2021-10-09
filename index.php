@@ -1,7 +1,7 @@
 <?php
 
 # CONFIGS
-const APP_URL = 'http://dev.api.hfx.local/';
+// const APP_URL = 'http://dev.api.hfx.local/';
 // const AUTH_BEARER = 'Bearer icAESDk4FQYhhubVwCPExcnax7VMUxfHJlbrbGKg3cXBRg2ZqHRf8uXk9hOnSFVlcsuerf1+62RxmZVrXS4n1UqBiv8ruZnj00BMWnOa5u0=';
 
 
@@ -15,12 +15,15 @@ else :
 endif;
 
 # Namespaces
+use Dotenv\Dotenv;
 use Proxy\Proxy;
 use Proxy\Filter\RemoveEncodingFilter;
 use Proxy\Adapter\Guzzle\GuzzleAdapter;
 use Laminas\Diactoros\ServerRequestFactory;
 use \GuzzleHttp\Exception\BadResponseException;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+
+Dotenv::createImmutable(__DIR__ . '/')->load();
 
 # Create a PSR7 request based on the current browser request.
 $request = ServerRequestFactory::fromGlobals();
@@ -54,10 +57,12 @@ try
 
 					# Manipulate the response object.
 					$response = $response->withHeader('X-Author', 'fadilxcoder');
+					$response = $response->withHeader('X-Original-Client', $_ENV['API_SERVER']);
 
 					return $response;
 				})
-				->to(APP_URL);
+				->to($_ENV['API_SERVER']);
+				// ->to(APP_URL);
 
     # Output response to the browser.
     (new SapiEmitter)->emit($response);
@@ -69,6 +74,6 @@ catch(BadResponseException $e)
 }
 catch(Exception $e) 
 {
-    # Correct way to handle bad responses
+    # Catch exception
     echo $e->getMessage();
 }
