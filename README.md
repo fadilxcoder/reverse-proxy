@@ -8,3 +8,9 @@
 - **Cross-Origin Request Headers(CORS) with PHP headers**
 - - https://stackoverflow.com/questions/8719276/cross-origin-request-headerscors-with-php-headers
 - - https://stackoverflow.com/questions/14467673/enable-cors-in-htaccess
+
+## Cryptojs / Reverse Proxy / API Server
+
+- Launch local server in CLI : `ngrok start dev.api.hfx`
+- Update `.env` *API_SERVER* path - Should end with `/`
+- Deploy on heroku
