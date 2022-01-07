@@ -12,5 +12,6 @@
 ## Cryptojs / Reverse Proxy / API Server
 
 - Launch local server in CLI : `ngrok start dev.api.hfx`
+- **OR** - Internally, launch php server : `php -S 127.0.0.1:3052 -t public/` then, `lt --port 3052 --subdomain api-hfx`
 - Update `.env` *API_SERVER* path - Should end with `/`
 - Deploy on heroku
