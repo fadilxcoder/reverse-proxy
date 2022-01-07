@@ -84,6 +84,8 @@ try
 
 					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
 
+					$request = $request->withHeader('Bypass-Tunnel-Reminder', '0.0.0.0');
+
 					# Call the next item in the middleware.
 					$response = $next($request, $response);
 
