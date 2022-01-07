@@ -83,8 +83,8 @@ try
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
 					$request = $request
-								->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION'])
-								->withHeader('Bypass-Tunnel-Reminder', '0.0.0.0')
+							->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION'])
+							->withHeader('Bypass-Tunnel-Reminder', 'L.3.3.7')
 					;
 
 					# Call the next item in the middleware.
