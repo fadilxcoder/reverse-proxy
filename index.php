@@ -82,9 +82,10 @@ try
 					# Manipulate the request object.
 					// $request = $request->withHeader('Authorization', AUTH_BEARER);
 
-					$request = $request->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION']);
-
-					$request = $request->withHeader('Bypass-Tunnel-Reminder', '0.0.0.0');
+					$request = $request
+								->withHeader('Authorization', $request->getServerParams()['HTTP_AUTHORIZATION'])
+								->withHeader('Bypass-Tunnel-Reminder', '0.0.0.0')
+					;
 
 					# Call the next item in the middleware.
 					$response = $next($request, $response);
