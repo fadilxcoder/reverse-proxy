@@ -11,8 +11,6 @@
 
 ## Cryptojs / Reverse Proxy / API Server
 
-- Launch local server in CLI : `ngrok start dev.api.hfx`
-- **OR** - Internally, launch php server : `php -S 127.0.0.1:3052 -t public/` then, `lt --port 3052 --subdomain api-hfx`
-- - *Add `'Bypass-Tunnel-Reminder'` in request header to bypass tunnel landing page*
-- Update `.env` *API_SERVER* path - Should end with `/`
-- Deploy on heroku
+
+- **Static** Crypto.js  [https://github.com/fadilxcoder/cryoto-js.git] --> **PHP** Reverse proxy --> **PHP** HFX Api server [https://github.com/fadilxcoder/hfx-api.git]
+- Internally, launch php server : `php -S 127.0.0.1:3052 -t public/` then, `lt --port 3052 --subdomain api-hfx` + *Add `'Bypass-Tunnel-Reminder'` in request header to bypass tunnel landing page*

@@ -96,7 +96,6 @@ try
 					return $response;
 				})
 				->to($_ENV['API_SERVER'] . $request->getServerParams()['HTTP_VERSION'] . $request->getServerParams()['HTTP_ENDPOINT']);
-				// ->to(APP_URL);
 
     # Output response to the browser.
     (new SapiEmitter)->emit($response);

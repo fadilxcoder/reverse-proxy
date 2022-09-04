@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "8ae28e71-6ade-4c3e-8640-b921ade572d5",
+		"name": "Reverse Proxy",
+		"description": "[https://github.com/fadilxcoder/reverse-proxy](https://github.com/fadilxcoder/reverse-proxy)\n\nUsing \\`[http://dev.api.hfx.local\\\\\\`](http://dev.api.hfx.local\\`) (HFX Api) as api data providers with reverse proxy\n\nChange NGROK proxy URL in reverse-proxy project in .env value for API\\_SERVER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18647677"
+	},
+	"item": [
+		{
+			"name": "reverse.proxy.local",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Version",
+						"value": "v1",
+						"type": "text"
+					},
+					{
+						"key": "Endpoint",
+						"value": "/users/",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://reverse.proxy.local/",
+					"protocol": "http",
+					"host": [
+						"reverse",
+						"proxy",
+						"local"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "icAESDk4FQYhhubVwCPExcnax7VMUxfHJlbrbGKg3cXBRg2ZqHRf8uXk9hOnSFVlcsuerf1+62RxmZVrXS4n1UqBiv8ruZnj00BMWnOa5u0=",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
